@@ -45,12 +45,14 @@ Before setting up the environment, ensure you have the following:
 
 #### **Example Bucket Policy:**
 
-1. `{ "Version": "2012-10-17", "Statement": \[ { "Effect": "Allow", "Principal": { "Service": "lambda.amazonaws.com" }, "Action": "s3:PutObject", "Resource": "arn:aws:s3:::awsbedrockstorygen/\*" } \] }` \#\#\# \*\*2\\. Create an IAM Role for Lambda\*\* Go to the **IAM Console** and create a new role.  
-2. Select **AWS Lambda** as the trusted entity.  
-3. Attach the following policies:  
+1. `{ "Version": "2012-10-17", "Statement": \[ { "Effect": "Allow", "Principal": { "Service": "lambda.amazonaws.com" }, "Action": "s3:PutObject", "Resource": "arn:aws:s3:::awsbedrockstorygen/\*" } \] } \#\#\#
+2. Create an IAM Role for Lambda\*\* Go to the **IAM Console** and create a new role.  
+4. Select **AWS Lambda** as the trusted entity.  
+5. Attach the following policies:  
    * **Custom Policy** for Bedrock and S3 access:
 
-`{ "Version": "2012-10-17", "Statement": \[ { "Effect": "Allow", "Action": \[ "bedrock:InvokeModel" \], "Resource": "\*" }, { "Effect": "Allow", "Action": \[ "s3:PutObject" \], "Resource": "arn:aws:s3:::awsbedrockstorygen/\*" }, { "Effect": "Allow", "Action": \[ "logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents" \], "Resource": "\*" } \] }` 1\. Save the role and note the \*\*Role ARN\*\*. 
+{ "Version": "2012-10-17", "Statement": \[ { "Effect": "Allow", "Action": \[ "bedrock:InvokeModel" \], "Resource": "\*" }, { "Effect": "Allow", "Action": \[ "s3:PutObject" \], "Resource": "arn:aws:s3:::awsbedrockstorygen/\*" }, { "Effect": "Allow", "Action": \[ "logs:CreateLogGroup", "logs:CreateLogStream", "logs:PutLogEvents" \], "Resource": "\*" } \] } 
+1. Save the role and note the \*\*Role ARN\*\*. 
 
 ---
 
