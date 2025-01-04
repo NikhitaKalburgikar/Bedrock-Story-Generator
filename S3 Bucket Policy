@@ -1,0 +1,13 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::831926625532:role/service-role/awsappbedrock-role-3ulu40yv"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::bedrockstory/*"
+        }
+    ]
+}
