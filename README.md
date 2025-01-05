@@ -133,8 +133,7 @@ Add the following environment variables to the Lambda function:
   }  
 }
 
-
-### **6\. Create an API Gateway with a post method.
+### **6\. Create an API Gateway with a post method.**
 
 1. use the cloudformation template to spin up api gateway, make sure to replace the lambda function arn or any resources referenced ( parameters )
 
