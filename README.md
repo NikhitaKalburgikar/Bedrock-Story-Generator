@@ -133,6 +133,37 @@ Add the following environment variables to the Lambda function:
   }  
 }
 
+### **6\. Create an API Gateway with a post method.**
+
+1. use the cloudformation template to spin up api gateway, make sure to replace the lambda function arn or any resources referenced ( parameters )
+
+   Postman Example:
+
+    Method: POST
+
+    URL: https://<api-id>.execute-api.<region>.amazonaws.com/prod/generate-story
+
+    Headers:
+        Content-Type: application/json
+
+    Body (JSON, raw):
+
+    {
+      "storyTopic": "A hero's journey"
+    }
+
+    Response: The Lambda function will return a response based on the provided storyTopic.
+
+  cURL Example:
+  
+  curl -X POST https://<api-id>.execute-api.<region>.amazonaws.com/prod/generate-story \
+    -H "Content-Type: application/json" \
+    -d '{"storyTopic": "A hero\'s journey"}'
+  
+      Replace <api-id> with your API Gateway ID and <region> with the AWS region (e.g., us-east-1).
+      The request body sends the storyTopic as part of the payload.
+
+
 ## **Code Overview**
 
 This project demonstrates the use of AWS Lambda to generate stories using the **Jurassic-2 Ultra model** via AWS Bedrock and store the results in an **S3 bucket**. The function is designed with modular components, robust error handling, and a configurable setup for various use cases. 
