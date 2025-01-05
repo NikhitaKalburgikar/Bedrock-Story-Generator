@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to create an API Gateway that triggers a Lambda function and accepts 'storyTopic' as input.
+
+Parameters:
+  LambdaFunctionArn:
+    Type: String
+    Description: The ARN of the existing Lambda function (e.g., arn:aws:lambda:<region>:<account-id>:function:<lambda-function-name>)
+
+Resources:
+  # Create API Gateway Rest API
+  MyApiGateway:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: MyApiGateway
+
+  # Create API Gateway Resource
+  ApiResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !GetAtt MyApiGateway.RootResourceId
+      PathPart: generate-story
+      RestApiId: !Ref MyApiGateway
+
+  # Create API Gateway Method
+  ApiMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref MyApiGateway
+      ResourceId: !Ref ApiResource
+      HttpMethod: POST
+      AuthorizationType: NONE
+      RequestModels:
+        application/json: !Ref ApiModel
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri: 
+          Fn::Sub: 
+            arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${LambdaFunctionArn}/invocations
+      RequestParameters:
+        method.request.header.Content-Type: true
+
+  # Create API Gateway Model for input validation
+  ApiModel:
+    Type: AWS::ApiGateway::Model
+    Properties:
+      RestApiId: !Ref MyApiGateway
+      ContentType: application/json
+      Schema:
+        type: object
+        properties:
+          storyTopic:
+            type: string
+        required: 
+          - storyTopic
+
+  # Grant API Gateway permission to invoke the Lambda function
+  ApiGatewayInvokeLambdaPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      Action: lambda:InvokeFunction
+      FunctionName: !Ref LambdaFunctionArn
+      Principal: apigateway.amazonaws.com
+
+
